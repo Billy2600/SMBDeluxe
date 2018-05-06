@@ -1,0 +1,67 @@
+﻿<Window x:Class="ParadigmED.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ParadigmED"
+        mc:Ignorable="d"
+        Title="ParadigmED" Height="350" Width="525">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <!-- File menus -->
+        <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3">
+            <TextBlock>Test</TextBlock>
+            <TextBlock>Test 2</TextBlock>
+            <TextBlock>Test 3</TextBlock>
+            <TextBlock>Test 4</TextBlock>
+            <TextBlock>Test 5</TextBlock>
+            <TextBlock>Test 6</TextBlock>
+            <TextBlock>Test 7</TextBlock>
+        </DockPanel>
+        
+        <!-- left menu -->
+        <StackPanel Grid.Column="0" Grid.Row="1">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Width: " FontWeight="Bold" />
+                    <TextBlock Text="Height: " FontWeight="Bold" />
+                    <TextBlock Text="X: " FontWeight="Bold" />
+                    <TextBlock Text="Y: " FontWeight="Bold" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1">
+                    <TextBox Text="{Binding Width, ElementName=rectOne, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
+                    <TextBox Text="{Binding Height, ElementName=rectOne, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
+                    <TextBox Text="{Binding (Canvas.Left), ElementName=rectOne, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
+                    <TextBox Text="{Binding (Canvas.Top), ElementName=rectOne, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
+                </StackPanel>
+            </Grid>
+
+        </StackPanel>
+
+        <GridSplitter Grid.Column="1" Width="5" Grid.Row="1" HorizontalAlignment="Stretch" />
+
+        <!-- Main view -->
+        <Canvas Grid.Column="1" Grid.Row="2">
+            <Ellipse Fill="Gainsboro" Canvas.Left="25" Canvas.Top="25" Width="200" Height="200" />
+            <Rectangle Fill="LightBlue" Canvas.Left="25" Canvas.Top="25" Width="50" Height="50" />
+            <Rectangle Fill="LightCoral" Canvas.Left="50" Canvas.Top="50" Width="50" Height="50" />
+            <Rectangle Name="rectOne" Fill="LightCyan" Canvas.Left="75" Canvas.Top="75" Width="50" Height="50" />
+        </Canvas>
+    </Grid>
+</Window>
