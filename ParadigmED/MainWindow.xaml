@@ -57,9 +57,9 @@
         <GridSplitter Grid.Column="1" Width="5" Grid.Row="1" HorizontalAlignment="Stretch" />
 
         <!-- Main view -->
-        <Canvas Grid.Column="1" Grid.Row="2">
+        <Canvas Name="DrawingCanvas" Grid.Column="1" Grid.Row="2" MouseMove="DrawingCanvas_MouseMove">
             <Ellipse Fill="Gainsboro" Canvas.Left="25" Canvas.Top="25" Width="200" Height="200" />
-            <Rectangle Fill="LightBlue" Canvas.Left="25" Canvas.Top="25" Width="50" Height="50" />
+            <Rectangle Fill="LightBlue" Canvas.Left="25" Canvas.Top="25" Width="50" Height="50" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" MouseLeftButtonUp="Rectangle_MouseLeftButtonUp" />
             <Rectangle Fill="LightCoral" Canvas.Left="50" Canvas.Top="50" Width="50" Height="50" />
             <Rectangle Name="rectOne" Fill="LightCyan" Canvas.Left="75" Canvas.Top="75" Width="50" Height="50" />
         </Canvas>
