@@ -19,13 +19,15 @@
         
         <!-- File menus -->
         <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3">
-            <TextBlock>Test</TextBlock>
-            <TextBlock>Test 2</TextBlock>
-            <TextBlock>Test 3</TextBlock>
-            <TextBlock>Test 4</TextBlock>
-            <TextBlock>Test 5</TextBlock>
-            <TextBlock>Test 6</TextBlock>
-            <TextBlock>Test 7</TextBlock>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New" />
+                    <MenuItem Header="_Open" />
+                    <MenuItem Header="_Save"/>
+                    <Separator />
+                    <MenuItem Header="_Exit"/>
+                </MenuItem>
+            </Menu>
         </DockPanel>
         
         <!-- left menu -->
