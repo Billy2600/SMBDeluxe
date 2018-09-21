@@ -14,17 +14,16 @@ namespace Paradigm.Entities
     // Used for level geometry
     class Brush : Entity
     {
+        private Texture2D texture;
+
         public Brush(float x = 0, float y = 0, float width = 0, float height = 0)
         {
-            Hitbox.X = x;
-            Hitbox.Y = y;
-            Hitbox.width = width;
-            Hitbox.height = height;
+            Hitbox = new FloatRect(new Vector2(x, y), new Vector2(width, height));
         }
 
         public override void LoadContent(ContentManager content)
         {
-
+            texture = content.Load<Texture2D>("red");
         }
 
         public override void Think(float dt)
@@ -34,7 +33,7 @@ namespace Paradigm.Entities
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-
+            spriteBatch.Draw(texture, Hitbox.GetPos(), null, Color.White, 0f, new Vector2(Hitbox.width / 2, Hitbox.height / 2), Vector2.One, SpriteEffects.None, 0f);
         }
 
         public override void HandleCollision(Entity other)

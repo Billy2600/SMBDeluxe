@@ -22,6 +22,7 @@ namespace Paradigm.States
         public override void Start(ContentManager content)
         {
             entityManager.Add(new Entities.Player());
+            entityManager.Add(new Entities.Brush(50, 50, 50, 50));
             entityManager.LoadContent(content);
         }
 
