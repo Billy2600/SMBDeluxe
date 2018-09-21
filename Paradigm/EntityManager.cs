@@ -25,7 +25,7 @@ namespace Paradigm
         public void Add(Entity entity)
         {
             added = true;
-            entity.entityManager = this;
+            entity.EntityManager = this;
             entities.Add(entity);
 
             // Single out and keep track of player
@@ -57,7 +57,7 @@ namespace Paradigm
         {
             foreach(var entity in entities)
             {
-                if(entity.deleteMe)
+                if(entity.DeleteMe)
                 {
                     entities.Remove(entity);
                 }
