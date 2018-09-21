@@ -6,6 +6,11 @@
         xmlns:local="clr-namespace:ParadigmED"
         mc:Ignorable="d"
         Title="ParadigmED" Height="350" Width="525">
+    <Window.CommandBindings>
+        <CommandBinding Command="Save" CanExecute="SaveFile_CanExecute" Executed="SaveFile_Executed" />
+        <CommandBinding Command="local:Command.DrawMode" CanExecute="DrawMode_CanExecute" Executed="DrawMode_Executed" />
+    </Window.CommandBindings>
+        
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
@@ -23,9 +28,13 @@
                 <MenuItem Header="_File">
                     <MenuItem Header="_New" />
                     <MenuItem Header="_Open" />
-                    <MenuItem Header="_Save"/>
+                    <MenuItem Header="_Save" Command="Save" />
                     <Separator />
                     <MenuItem Header="_Exit"/>
+                </MenuItem>
+                <MenuItem Header="_Mode">
+                    <MenuItem Header="_Draw" Command="local:Command.DrawMode" />
+                    <MenuItem Header="_Select" />
                 </MenuItem>
             </Menu>
         </DockPanel>
@@ -47,10 +56,10 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="1">
-                    <TextBox Text="{Binding Width, ElementName=rectOne, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
-                    <TextBox Text="{Binding Height, ElementName=rectOne, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
-                    <TextBox Text="{Binding (Canvas.Left), ElementName=rectOne, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
-                    <TextBox Text="{Binding (Canvas.Top), ElementName=rectOne, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
+                    <TextBox Text="{Binding Path=Width, ElementName=selectedRect, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
+                    <TextBox Text="{Binding Path=Height, ElementName=selectedRect, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
+                    <TextBox Text="{Binding Path=(Canvas.Left), ElementName=selectedRect, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
+                    <TextBox Text="{Binding Path=(Canvas.Top), ElementName=selectedRect, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
                 </StackPanel>
             </Grid>
 
@@ -59,11 +68,8 @@
         <GridSplitter Grid.Column="1" Width="5" Grid.Row="1" HorizontalAlignment="Stretch" />
 
         <!-- Main view -->
-        <Canvas Name="DrawingCanvas" Grid.Column="1" Grid.Row="2" MouseMove="DrawingCanvas_MouseMove">
-            <Ellipse Fill="Gainsboro" Canvas.Left="25" Canvas.Top="25" Width="200" Height="200" />
-            <Rectangle Fill="LightBlue" Canvas.Left="25" Canvas.Top="25" Width="50" Height="50" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" MouseLeftButtonUp="Rectangle_MouseLeftButtonUp" />
-            <Rectangle Fill="LightCoral" Canvas.Left="50" Canvas.Top="50" Width="50" Height="50" />
-            <Rectangle Name="rectOne" Fill="LightCyan" Canvas.Left="75" Canvas.Top="75" Width="50" Height="50" />
+        <Canvas Name="DrawingCanvas" Grid.Column="1" Grid.Row="2" MouseMove="DrawingCanvas_MouseMove" MouseLeftButtonDown="DrawingCanvas_MouseLeftButtonDown" MouseLeftButtonUp="DrawingCanvas_MouseLeftButtonUp" Background="Transparent">
+               
         </Canvas>
     </Grid>
 </Window>

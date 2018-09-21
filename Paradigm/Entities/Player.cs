@@ -17,7 +17,7 @@ namespace Paradigm.Entities
 
         public Player()
         {
-            hitbox = new FloatRect(30, 30, 16, 16);
+            Hitbox = new FloatRect(30, 30, 16, 16);
         }
 
         public override void LoadContent(ContentManager content)
@@ -47,7 +47,7 @@ namespace Paradigm.Entities
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, hitbox.GetPos(), null, Color.White, 0f, new Vector2(texture.Width / 2, texture.Height / 2), Vector2.One, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, Hitbox.GetPos(), null, Color.White, 0f, new Vector2(texture.Width / 2, texture.Height / 2), Vector2.One, SpriteEffects.None, 0f);
         }
 
         public override void HandleCollision(Entity other)

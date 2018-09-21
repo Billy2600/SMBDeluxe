@@ -15,7 +15,7 @@ namespace Paradigm
     class Entity
     {
         public bool deleteMe = false; // Delete flag
-        public FloatRect hitbox; // Used for positioning and collision
+        public FloatRect Hitbox { get; set; } // Used for positioning and collision
         public EntityManager entityManager; // So we can instantiate bullets, etc.
 
         public virtual void LoadContent(ContentManager content) { } // Load content
@@ -24,8 +24,8 @@ namespace Paradigm
         public virtual void HandleCollision(Entity other) { } // Called upon collision
         public virtual void Move(Vector2 move, float dt)
         {
-            hitbox.X += move.X * dt;
-            hitbox.Y += move.Y * dt;
+            Hitbox.X += move.X * dt;
+            Hitbox.Y += move.Y * dt;
         }
     }
 }

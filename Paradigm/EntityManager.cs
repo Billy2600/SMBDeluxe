@@ -43,7 +43,7 @@ namespace Paradigm
                     if (entityA == entityB)
                         continue;
 
-                    if(entityA.hitbox.Intersects(entityB.hitbox))
+                    if(entityA.Hitbox.Intersects(entityB.Hitbox))
                     {
                         entityA.HandleCollision(entityB);
                         entityB.HandleCollision(entityA);
