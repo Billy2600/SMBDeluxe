@@ -68,8 +68,21 @@
         <GridSplitter Grid.Column="1" Width="5" Grid.Row="1" HorizontalAlignment="Stretch" />
 
         <!-- Main view -->
-        <Canvas Name="DrawingCanvas" Grid.Column="1" Grid.Row="2" MouseMove="DrawingCanvas_MouseMove" MouseLeftButtonDown="DrawingCanvas_MouseLeftButtonDown" MouseLeftButtonUp="DrawingCanvas_MouseLeftButtonUp" Background="Transparent">
-               
+        <Canvas Name="DrawingCanvas" Grid.Column="3" Grid.Row="2" MouseMove="DrawingCanvas_MouseMove" MouseLeftButtonDown="DrawingCanvas_MouseLeftButtonDown" MouseLeftButtonUp="DrawingCanvas_MouseLeftButtonUp">
+            <Canvas.Background>
+                <DrawingBrush TileMode="Tile" Viewport="-10,-10,40,40" ViewportUnits="Absolute">
+                    <DrawingBrush.Drawing>
+                        <GeometryDrawing>
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry Rect="0,0,50,50"/>
+                            </GeometryDrawing.Geometry>
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Gray" Thickness="1"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Canvas.Background>
         </Canvas>
     </Grid>
 </Window>
