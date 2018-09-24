@@ -33,7 +33,6 @@ namespace Paradigm.Entities
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(texture, Hitbox.GetPos(), null, Color.White, 0f, new Vector2(Hitbox.width / 2, Hitbox.height / 2), Vector2.One, SpriteEffects.None, 0f);
             spriteBatch.Draw(texture, new Rectangle(
                 new Point((int)Hitbox.X, (int)Hitbox.Y),
                 new Point((int)Hitbox.width, (int)Hitbox.height)
