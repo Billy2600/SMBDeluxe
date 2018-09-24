@@ -42,6 +42,8 @@ namespace Paradigm.Entities
             if (kstate.IsKeyDown(Keys.Right))
                 moveVec.X = speed;
 
+            EntityManager.Add(new Brush(Hitbox.X + 100, Hitbox.Y + 100, 50, 50));
+
             Move(moveVec, dt);
         }
 

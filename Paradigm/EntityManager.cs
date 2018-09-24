@@ -76,9 +76,15 @@ namespace Paradigm
         // All entities will think
         public void Think(float dt)
         {
+            added = false;
+
             foreach(var entity in entities)
             {
                 entity.Think(dt);
+                if (added)
+                {
+                    return;
+                }
             }
         }
 
