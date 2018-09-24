@@ -16,9 +16,12 @@ namespace Paradigm
         private bool added = false; // Entity added flag
         private Entity player; // Keep track of the player
 
-        public EntityManager()
+        public ContentManager contentManager { get; set; }
+
+        public EntityManager(ContentManager contentMgr)
         {
             entities = new List<Entity>();
+            contentManager = contentMgr;
         }
 
         // Add new entity
@@ -65,11 +68,11 @@ namespace Paradigm
         }
 
         // Load content for all entities
-        public void LoadContent(ContentManager content)
+        public void LoadContent()
         {
             foreach (var entity in entities)
             {
-                entity.LoadContent(content);
+                entity.LoadContent(contentManager);
             }
         }
 
@@ -83,6 +86,7 @@ namespace Paradigm
                 entity.Think(dt);
                 if (added)
                 {
+                    entities.Last().LoadContent(contentManager);
                     return;
                 }
             }

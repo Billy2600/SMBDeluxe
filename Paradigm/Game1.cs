@@ -34,7 +34,7 @@ namespace Paradigm
         /// </summary>
         protected override void Initialize()
         {
-            states.Push(new States.Gameplay());
+            states.Push(new States.Gameplay(Content));
 
             base.Initialize();
         }
