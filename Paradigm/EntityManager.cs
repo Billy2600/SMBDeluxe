@@ -13,6 +13,7 @@ namespace Paradigm
     class EntityManager
     {
         private List<Entity> entities;
+        private List<Entity> entityQueue;
         private bool added = false; // Entity added flag
         private Entity player; // Keep track of the player
 
@@ -21,6 +22,7 @@ namespace Paradigm
         public EntityManager(ContentManager contentMgr)
         {
             entities = new List<Entity>();
+            entityQueue = new List<Entity>();
             contentManager = contentMgr;
         }
 
@@ -29,7 +31,7 @@ namespace Paradigm
         {
             added = true;
             entity.EntityManager = this;
-            entities.Add(entity);
+            entityQueue.Add(entity);
 
             // Single out and keep track of player
             if (entity is Entities.Player)
@@ -79,16 +81,14 @@ namespace Paradigm
         // All entities will think
         public void Think(float dt)
         {
-            added = false;
-
             foreach(var entity in entities)
             {
                 entity.Think(dt);
-                if (added)
-                {
-                    entities.Last().LoadContent(contentManager);
-                    return;
-                }
+            }
+
+            if (added)
+            {
+                MergeEntityLists();
             }
         }
 
@@ -99,6 +99,18 @@ namespace Paradigm
             {
                 entity.Draw(spriteBatch);
             }
+        }
+
+        private void MergeEntityLists()
+        {
+            foreach(var entity in entityQueue)
+            {
+                entity.LoadContent(contentManager);
+            }
+
+            entities.AddRange(entityQueue);
+            entityQueue.Clear();
+            added = false;
         }
     }
 }
