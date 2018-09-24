@@ -9,15 +9,17 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Paradigm.Entities
 {
-    // Much like the Brush object in the Quake and Source engines
-    // Used for level geometry
-    class Brush : Entity
+    class Bullet : Entity
     {
         private Texture2D texture = null;
+        private float speed = 350f;
 
-        public Brush(float x = 0, float y = 0, float width = 0, float height = 0)
+        public Entity Owner { get; set; }
+
+        public Bullet(Entity owner, float x = 0, float y = 0, float width = 0, float height = 0)
         {
             Hitbox = new FloatRect(new Vector2(x, y), new Vector2(width, height));
+            Owner = owner;
         }
 
         public override void LoadContent(ContentManager content)
@@ -27,7 +29,8 @@ namespace Paradigm.Entities
 
         public override void Think(float dt)
         {
-
+            Vector2 moveVec = new Vector2(speed, 0);
+            Move(moveVec, dt);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -45,11 +48,6 @@ namespace Paradigm.Entities
         public override void HandleCollision(Entity other)
         {
 
-        }
-
-        public override void Move(Vector2 move, float dt)
-        {
-            // Do nothing by default
         }
     }
 }

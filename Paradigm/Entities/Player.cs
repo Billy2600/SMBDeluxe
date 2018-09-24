@@ -14,6 +14,8 @@ namespace Paradigm.Entities
     {
         private float speed = 350f;
         private Texture2D texture;
+        private long lastFire;
+        private long fireDelay = 500;
 
         public Player()
         {
@@ -42,7 +44,11 @@ namespace Paradigm.Entities
             if (kstate.IsKeyDown(Keys.Right))
                 moveVec.X = speed;
 
-            EntityManager.Add(new Brush(Hitbox.X + 100, Hitbox.Y + 100, 50, 50));
+            if (kstate.IsKeyDown(Keys.LeftControl) && (DateTime.Now.Ticks / 1000) - lastFire >= fireDelay)
+            {
+                EntityManager.Add(new Bullet(this, Hitbox.X, Hitbox.Y, 5, 5));
+                lastFire = DateTime.Now.Ticks / 1000;
+            }
 
             Move(moveVec, dt);
         }
