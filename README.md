@@ -1,1 +1,1 @@
-# Paradigm
+# SMB Deluxe
