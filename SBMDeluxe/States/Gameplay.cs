@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 
-namespace Paradigm.States
+namespace SMBDeluxe.States
 {
     class Gameplay : GameState
     {
@@ -22,7 +22,6 @@ namespace Paradigm.States
         public override void Start(ContentManager content)
         {
             entityManager.Add(new Entities.Player());
-            entityManager.Add(new Entities.Brush(60, 60, 200, 50));
             entityManager.LoadContent();
         }
 

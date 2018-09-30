@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Paradigm
+namespace SMBDeluxe
 {
     /// <summary>
     /// The main class.

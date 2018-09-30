@@ -42,7 +42,6 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Entities\Brush.cs" />
     <Compile Include="Entities\Bullet.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entity.cs" />
