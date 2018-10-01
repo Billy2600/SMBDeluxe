@@ -1,9 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 // Manages everything to do with Tiles
 // Loads from file, collisions, etc.
@@ -32,7 +29,7 @@ namespace SMBDeluxe
         {
             foreach(var tile in tiles)
             {
-                if (tile.HitBox.Intersects(objRect))
+                if (tile.Hitbox.Intersects(objRect))
                     return true;
             }
 
@@ -42,7 +39,10 @@ namespace SMBDeluxe
         // Draw all on-screen tiles
         public void Draw(SpriteBatch spriteBatch, FloatRect camera)
         {
-            
+            foreach (var tile in tiles)
+            {
+                spriteBatch.Draw(texture, tile.Hitbox.GetPos(), null, Color.White, 0f, new Vector2(texture.Width / 2, texture.Height / 2), Vector2.One, SpriteEffects.None, 0f);
+            }
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 
 namespace SMBDeluxe
 {
@@ -15,16 +11,17 @@ namespace SMBDeluxe
     class Tile
     {
         public TileType Type { get; set; }
-        public FloatRect HitBox { get; set; }
+        public FloatRect Hitbox { get; set; }
         public static int TileWidth = 16;
         public static int TileHeight = 16;
+        public Rectangle sourceRect;
 
         public Tile()
         {
-            HitBox.X = 0;
-            HitBox.Y = 0;
-            HitBox.width = TileWidth;
-            HitBox.height = TileHeight;
+            Hitbox.X = 0;
+            Hitbox.Y = 0;
+            Hitbox.width = TileWidth;
+            Hitbox.height = TileHeight;
         }
     }
 }
