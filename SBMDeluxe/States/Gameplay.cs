@@ -21,7 +21,7 @@ namespace SMBDeluxe.States
         {
             entityManager.Add(new Entities.Player());
             entityManager.LoadContent();
-            tileManager.LoadFromFile("1-1.tmx");
+            tileManager.LoadFromFile("Content\\1-1.tmx", content);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
