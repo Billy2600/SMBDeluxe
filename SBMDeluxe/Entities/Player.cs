@@ -12,10 +12,12 @@ namespace SMBDeluxe.Entities
 {
     class Player : Entity
     {
-        private float speed = 350f;
+        private static float speed = 350f;
         private Texture2D texture;
+
+        // Fireball stuff
         private long lastFire;
-        private long fireDelay = 500;
+        private static long fireDelay = 500;
 
         public Player()
         {

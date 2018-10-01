@@ -52,6 +52,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\Gameplay.cs" />
+    <Compile Include="Tile.cs" />
+    <Compile Include="TileManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

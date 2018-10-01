@@ -13,9 +13,12 @@ namespace SMBDeluxe.States
     class Gameplay : GameState
     {
         EntityManager entityManager;
+        TileManager tileManager;
+        FloatRect camera;
 
         public Gameplay(ContentManager contentMgr)
         {
+            tileManager = new TileManager();
             entityManager = new EntityManager(contentMgr);
         }
 
@@ -23,10 +26,12 @@ namespace SMBDeluxe.States
         {
             entityManager.Add(new Entities.Player());
             entityManager.LoadContent();
+            tileManager.LoadFromFile("1-1.tmx");
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            tileManager.Draw(spriteBatch, camera);
             entityManager.Draw(spriteBatch);
         }
 
