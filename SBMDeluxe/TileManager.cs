@@ -70,7 +70,7 @@ namespace SMBDeluxe
 
                         tiles.Add(new Tile(new FloatRect(x * 16,y * 16,Tile.TileWidth,Tile.TileHeight), new Rectangle((int)clip.X, (int)clip.Y, Tile.TileWidth, Tile.TileHeight)));
                         x++;
-                        if(x > width)
+                        if(x >= width)
                         {
                             x = 0;
                             y++;
