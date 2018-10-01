@@ -22,7 +22,7 @@ namespace SMBDeluxe.Entities
 
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("ball");
+            texture = content.Load<Texture2D>("sprites");
         }
 
         public override void Think(float dt)
@@ -53,7 +53,7 @@ namespace SMBDeluxe.Entities
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, Hitbox.GetPos(), null, Color.White, 0f, new Vector2(texture.Width / 2, texture.Height / 2), Vector2.One, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, Hitbox.GetPos(), new Rectangle(0, 24, 16, 16), Color.White, 0f, new Vector2(0, 0), Vector2.One, SpriteEffects.None, 0f);
         }
 
         public override void HandleCollision(Entity other)
