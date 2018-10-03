@@ -24,6 +24,8 @@ namespace SMBDeluxe
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             states = new Stack<GameState>();
+            this.IsFixedTimeStep = true;
+            this.TargetElapsedTime = TimeSpan.FromSeconds(1d / 60d);
         }
 
         /// <summary>

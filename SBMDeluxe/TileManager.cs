@@ -68,14 +68,20 @@ namespace SMBDeluxe
                     {
                         Vector2 clip = GetTileClip(System.Convert.ToInt32(reader.GetAttribute("gid")) - 1, texture.Width);
 
-                        tiles.Add(new Tile(new FloatRect(x * 16,y * 16,Tile.TileWidth,Tile.TileHeight), new Rectangle((int)clip.X, (int)clip.Y, Tile.TileWidth, Tile.TileHeight)));
+                        var tile = new Tile(new FloatRect(x * 16, y * 16, Tile.TileWidth, Tile.TileHeight), new Rectangle((int)clip.X, (int)clip.Y, Tile.TileWidth, Tile.TileHeight));
+                        // TEMPORARY
+                        if (System.Convert.ToInt32(reader.GetAttribute("gid")) == 44)
+                            tile.Type = TileType.NotSolid;
+                        else
+                            tile.Type = TileType.Solid;
+
+                        tiles.Add(tile);
                         x++;
                         if(x >= width)
                         {
                             x = 0;
                             y++;
                         }
-                        
                     } while (reader.ReadToNextSibling("tile"));
                 }
 
@@ -87,7 +93,8 @@ namespace SMBDeluxe
         {
             foreach(var tile in tiles)
             {
-                if (tile.Hitbox.Intersects(objRect))
+                // TODO: Check if object is inside camera area
+                if (tile.Type == TileType.Solid && tile.Hitbox.Intersects(objRect))
                     return true;
             }
 

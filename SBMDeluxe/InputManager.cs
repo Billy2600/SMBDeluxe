@@ -1,19 +1,19 @@
 ﻿using Microsoft.Xna.Framework.Input;
 
 namespace SMBDeluxe
-{        
+{
+    public struct Inputs
+    {
+        public bool Up;
+        public bool Down;
+        public bool Left;
+        public bool Right;
+        public bool Run;
+        public bool Jump;
+    }
+
     public class InputManager
     {
-        public struct Inputs
-        {
-            public bool Up;
-            public bool Down;
-            public bool Left;
-            public bool Right;
-            public bool Run;
-            public bool Jump;
-        }
-
         public Inputs ReadInputs()
         {
             Inputs inputs = new Inputs();
