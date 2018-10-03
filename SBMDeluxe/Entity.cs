@@ -25,8 +25,8 @@ namespace SMBDeluxe
         public virtual void HandleCollision(Entity other) { } // Called upon collision
         public virtual void Move(Vector2 move, float dt)
         {
-            Hitbox.X += move.X * dt;
-            Hitbox.Y += move.Y * dt;
+            Hitbox.X += move.X;// * dt;
+            Hitbox.Y += move.Y;// * dt;
         }
     }
 }

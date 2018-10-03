@@ -8,7 +8,6 @@ namespace SMBDeluxe.Entities
 {
     class Player : Entity
     {
-        private static float speed = 350f;
         private Texture2D texture;
 
         // Physics stuff
