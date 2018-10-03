@@ -9,17 +9,21 @@ namespace SMBDeluxe.States
     {
         EntityManager entityManager;
         TileManager tileManager;
+        InputManager inputManager;
         FloatRect camera;
+        Entities.Player player;
 
         public Gameplay(ContentManager contentMgr)
         {
+            inputManager = new InputManager();
             tileManager = new TileManager();
             entityManager = new EntityManager(contentMgr);
         }
 
         public override void Start(ContentManager content)
         {
-            entityManager.Add(new Entities.Player());
+            player = new Entities.Player(tileManager);
+            entityManager.Add(player);
             entityManager.LoadContent();
             tileManager.LoadFromFile("Content\\1-1.tmx", content);
         }
@@ -32,6 +36,7 @@ namespace SMBDeluxe.States
 
         public override void Update(float dt)
         {
+            player.SetInputs(inputManager.ReadInputs());
             entityManager.Think(dt);
         }
 
