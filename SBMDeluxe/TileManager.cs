@@ -52,7 +52,7 @@ namespace SMBDeluxe
                 if (tilemap == null)
                     return;
 
-                SortedDictionary<string, TileType> tileTypes = new SortedDictionary<string, TileType>();
+               var tileTypes = new SortedDictionary<int, TileType>();
 
                 using (XmlReader tilemapReader = XmlReader.Create("Content\\" + tilemap))
                 {
@@ -78,7 +78,7 @@ namespace SMBDeluxe
                                     tileType = TileType.Solid;
                                     break;
                             }
-                            tileTypes.Add(tilemapReader.GetAttribute("id"), tileType);
+                            tileTypes.Add(System.Convert.ToInt32(tilemapReader.GetAttribute("id"))+1, tileType); // Tile id's are offset from gid's by one
                         } while (tilemapReader.ReadToNextSibling("tile"));
                     }
                 }
@@ -94,7 +94,7 @@ namespace SMBDeluxe
 
                         var tile = new Tile(new FloatRect(x * 16, y * 16, Tile.TileWidth, Tile.TileHeight), new Rectangle((int)clip.X, (int)clip.Y, Tile.TileWidth, Tile.TileHeight));
 
-                        string gid = reader.GetAttribute("gid");
+                        int gid = System.Convert.ToInt32(reader.GetAttribute("gid"));
                         if (tileTypes.ContainsKey(gid))
                             tile.Type = tileTypes[gid];
                         else
