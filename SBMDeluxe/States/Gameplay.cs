@@ -12,20 +12,24 @@ namespace SMBDeluxe.States
         InputManager inputManager;
         FloatRect camera;
         Entities.Player player;
+        AnimManager animManager;
 
         public Gameplay(ContentManager contentMgr)
         {
             inputManager = new InputManager();
             tileManager = new TileManager();
             entityManager = new EntityManager(contentMgr);
+            animManager = new AnimManager();
         }
 
         public override void Start(ContentManager content)
         {
             player = new Entities.Player(tileManager);
+            player.animManager = animManager;
             entityManager.Add(player);
             entityManager.LoadContent();
             tileManager.LoadFromFile("Content\\1-1.tmx", content);
+            animManager.LoadFromFile("Content\\animations.xml");
         }
 
         public override void Draw(SpriteBatch spriteBatch)

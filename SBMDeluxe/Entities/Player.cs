@@ -114,6 +114,7 @@ namespace SMBDeluxe.Entities
 
             // Move left/right
             Move(new Vector2(velocity.X, 0), dt);
+
             if(tileManager.CheckCollision(Hitbox, null))
             {
                 // Move back and stop velocity
@@ -124,7 +125,16 @@ namespace SMBDeluxe.Entities
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, Hitbox.GetPos(), new Rectangle(0, 24, 16, 16), Color.White, 0f, new Vector2(0, 0), Vector2.One, SpriteEffects.None, 0f);
+            Rectangle frame;
+            if (jumping || falling)
+                frame = new Rectangle(64, 32, 16, 16);
+            else
+                frame = new Rectangle(0, 32, 16, 16);
+
+            SpriteEffects spriteEffect = SpriteEffects.None;
+            if (flip) spriteEffect = SpriteEffects.FlipHorizontally;
+
+            spriteBatch.Draw(texture, Hitbox.GetPos(), frame, Color.White, 0f, new Vector2(0, 0), Vector2.One, spriteEffect, 0f);
         }
 
         public override void HandleCollision(Entity other)

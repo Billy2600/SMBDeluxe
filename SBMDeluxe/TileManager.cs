@@ -52,7 +52,7 @@ namespace SMBDeluxe
                 if (tilemap == null)
                     return;
 
-               var tileTypes = new SortedDictionary<int, TileType>();
+               var tileTypes = new Dictionary<int, TileType>();
 
                 using (XmlReader tilemapReader = XmlReader.Create("Content\\" + tilemap))
                 {
