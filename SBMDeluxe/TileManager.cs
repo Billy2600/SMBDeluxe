@@ -52,11 +52,35 @@ namespace SMBDeluxe
                 if (tilemap == null)
                     return;
 
+                SortedDictionary<string, TileType> tileTypes = new SortedDictionary<string, TileType>();
+
                 using (XmlReader tilemapReader = XmlReader.Create("Content\\" + tilemap))
                 {
                     tilemapReader.ReadToFollowing("image");
                     string textureName = tilemapReader.GetAttribute("source");
                     texture = content.Load<Texture2D>(textureName.Substring(0, textureName.Length - 4)); // Strip file extension
+
+                    if (tilemapReader.ReadToNextSibling("tile"))
+                    {
+                        do
+                        {
+                            TileType tileType = new TileType();
+
+                            switch (tilemapReader.GetAttribute("type"))
+                            {
+                                case "Solid":
+                                    tileType = TileType.Solid;
+                                    break;
+                                case "NotSolid":
+                                    tileType = TileType.NotSolid;
+                                    break;
+                                default:
+                                    tileType = TileType.Solid;
+                                    break;
+                            }
+                            tileTypes.Add(tilemapReader.GetAttribute("id"), tileType);
+                        } while (tilemapReader.ReadToNextSibling("tile"));
+                    }
                 }
 
                 reader.ReadToFollowing("data");
@@ -69,9 +93,10 @@ namespace SMBDeluxe
                         Vector2 clip = GetTileClip(System.Convert.ToInt32(reader.GetAttribute("gid")) - 1, texture.Width);
 
                         var tile = new Tile(new FloatRect(x * 16, y * 16, Tile.TileWidth, Tile.TileHeight), new Rectangle((int)clip.X, (int)clip.Y, Tile.TileWidth, Tile.TileHeight));
-                        // TEMPORARY
-                        if (System.Convert.ToInt32(reader.GetAttribute("gid")) == 44)
-                            tile.Type = TileType.NotSolid;
+
+                        string gid = reader.GetAttribute("gid");
+                        if (tileTypes.ContainsKey(gid))
+                            tile.Type = tileTypes[gid];
                         else
                             tile.Type = TileType.Solid;
 
