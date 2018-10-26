@@ -72,6 +72,7 @@ namespace SMBDeluxe
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            states.Peek().gameTime = gameTime;
 
             states.Peek().Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 

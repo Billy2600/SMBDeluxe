@@ -7,12 +7,12 @@ namespace SMBDeluxe.States
 {
     class Gameplay : GameState
     {
-        EntityManager entityManager;
-        TileManager tileManager;
-        InputManager inputManager;
-        FloatRect camera;
-        Entities.Player player;
-        AnimManager animManager;
+        private EntityManager entityManager;
+        private TileManager tileManager;
+        private InputManager inputManager;
+        private FloatRect camera;
+        private Entities.Player player;
+        private AnimManager animManager;
 
         public Gameplay(ContentManager contentMgr)
         {
@@ -40,6 +40,7 @@ namespace SMBDeluxe.States
 
         public override void Update(float dt)
         {
+            animManager.gameTime = gameTime;
             player.SetInputs(inputManager.ReadInputs());
             entityManager.Think(dt);
         }

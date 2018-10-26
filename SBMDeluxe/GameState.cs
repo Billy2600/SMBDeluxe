@@ -12,6 +12,8 @@ namespace SMBDeluxe
 {
     class GameState
     {
+        public GameTime gameTime;
+
         public virtual void Start(ContentManager content) { } // Load content and start state
         public virtual void Draw(SpriteBatch spriteBatch) { }
         public virtual void Update(float dt) { }

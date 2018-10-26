@@ -7,17 +7,19 @@ using System.Xml;
 
 namespace SMBDeluxe
 {
-    class Animation
+    public class Animation
     {
         public List<Rectangle> frames;
         public short frameCounter;
-        public float delay; // Delay between frames
-        public float lastTime; // Last time we changed frame
+        public long delay; // Delay between frames
+        public long lastTime; // Last time we changed frame
     }
 
-    class AnimManager
+    public class AnimManager
     {
         private Dictionary<string, Animation> animations;
+
+        public GameTime gameTime;
 
         public AnimManager()
         {
@@ -38,7 +40,7 @@ namespace SMBDeluxe
                     {
                         animation = new Animation()
                         {
-                            delay = float.Parse(reader.GetAttribute("delay")),
+                            delay = int.Parse(reader.GetAttribute("delay")),
                             frameCounter = 0,
                             lastTime = 0,
                             frames = new List<Rectangle>()
@@ -73,7 +75,24 @@ namespace SMBDeluxe
 
         public Rectangle Animate(string name, bool stopOnLastFrame = false)
         {
-            return new Rectangle();
+            if(gameTime.TotalGameTime.Ticks > animations[name].lastTime + animations[name].delay)
+            {
+                animations[name].frameCounter++;
+                if(animations[name].frameCounter >= animations[name].frames.Count)
+                {
+                    if (stopOnLastFrame)
+                        return animations[name].frames[animations[name].frames.Count - 1];
+                    else
+                        ResetAnim(name);
+                }
+
+                animations[name].lastTime = gameTime.TotalGameTime.Ticks;
+            }
+
+            if (!IsAnimEmpty(name))
+                return animations[name].frames[animations[name].frameCounter];
+            else
+                return new Rectangle() { X = 0, Y = 0, Width = 0, Height = 0 };
         }
 
         public void ResetAnim(string name)

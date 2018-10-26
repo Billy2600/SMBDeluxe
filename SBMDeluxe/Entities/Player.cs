@@ -26,6 +26,7 @@ namespace SMBDeluxe.Entities
         private bool flip; // Flip sprite flag
         private TileManager tileManager;
         private AnimManager animManager;
+        private string currentAnim;
         private Inputs inputs;
 
         // Fireball stuff
@@ -123,20 +124,21 @@ namespace SMBDeluxe.Entities
                 Move(new Vector2(-velocity.X, 0), dt);
                 velocity.X = 0.0f;
             }
+
+            if (jumping || falling)
+                currentAnim = "mario_jump";
+            else if (velocity.X != 0.0f)
+                currentAnim = "mario_run";
+            else
+                currentAnim = "mario_stand";
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Rectangle frame;
-            if (jumping || falling)
-                frame = new Rectangle(64, 32, 16, 16);
-            else
-                frame = new Rectangle(0, 32, 16, 16);
-
             SpriteEffects spriteEffect = SpriteEffects.None;
             if (flip) spriteEffect = SpriteEffects.FlipHorizontally;
 
-            spriteBatch.Draw(texture, Hitbox.GetPos(), frame, Color.White, 0f, new Vector2(0, 0), Vector2.One, spriteEffect, 0f);
+            spriteBatch.Draw(texture, Hitbox.GetPos(), animManager.Animate(currentAnim), Color.White, 0f, new Vector2(0, 0), Vector2.One, spriteEffect, 0f);
         }
 
         public override void HandleCollision(Entity other)
