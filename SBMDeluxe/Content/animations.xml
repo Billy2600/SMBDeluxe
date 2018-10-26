@@ -3,7 +3,7 @@
 		<frame x="0" y="0" w="0" h="0"></frame>
 	</ainim>
     <anim name="mario_stand" delay="5">
-        <frame x="0" y="32" w="16" h="16">
+        <frame x="0" y="32" w="16" h="16"></frame>
     </anim>
 	<anim name="mario_run" delay="5">
 		<frame x="15" y="32" w="16" h="16"></frame>

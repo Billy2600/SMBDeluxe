@@ -16,14 +16,16 @@ namespace SMBDeluxe
         private List<Entity> entityQueue;
         private bool added = false; // Entity added flag
         private Entity player; // Keep track of the player
+        private AnimManager animManager;
 
         public ContentManager contentManager { get; set; }
 
-        public EntityManager(ContentManager contentMgr)
+        public EntityManager(ContentManager contentMgr, AnimManager animManagerRef)
         {
             entities = new List<Entity>();
             entityQueue = new List<Entity>();
             contentManager = contentMgr;
+            animManager = animManagerRef;
         }
 
         // Add new entity

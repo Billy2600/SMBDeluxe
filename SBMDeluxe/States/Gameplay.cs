@@ -18,13 +18,13 @@ namespace SMBDeluxe.States
         {
             inputManager = new InputManager();
             tileManager = new TileManager();
-            entityManager = new EntityManager(contentMgr);
+            entityManager = new EntityManager(contentMgr, animManager);
             animManager = new AnimManager();
         }
 
         public override void Start(ContentManager content)
         {
-            player = new Entities.Player(tileManager);
+            player = new Entities.Player(tileManager, animManager);
             player.animManager = animManager;
             entityManager.Add(player);
             entityManager.LoadContent();

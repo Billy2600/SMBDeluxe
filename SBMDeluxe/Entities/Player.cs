@@ -25,15 +25,17 @@ namespace SMBDeluxe.Entities
         private bool falling;
         private bool flip; // Flip sprite flag
         private TileManager tileManager;
+        private AnimManager animManager;
         private Inputs inputs;
 
         // Fireball stuff
         private long lastFire;
         private static long fireDelay = 500;
 
-        public Player(TileManager tileManagerRef)
+        public Player(TileManager tileManagerRef, AnimManager animManagerRef)
         {
             tileManager = tileManagerRef;
+            animManager = animManagerRef;
             Hitbox = new FloatRect(30, 30, 16, 16);
         }
 

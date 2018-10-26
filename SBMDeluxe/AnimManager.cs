@@ -7,60 +7,68 @@ using System.Xml;
 
 namespace SMBDeluxe
 {
+    class Animation
+    {
+        public List<Rectangle> frames;
+        public short frameCounter;
+        public float delay; // Delay between frames
+        public float lastTime; // Last time we changed frame
+    }
+
     class AnimManager
     {
-        private Dictionary<string, List<Rectangle>> animations;
-        private Dictionary<string, short> frameCounters;
-        private Dictionary<string, int> delays;
-        private Dictionary<string, float> lastTime; // Last time we changed frame
+        private Dictionary<string, Animation> animations;
 
         public AnimManager()
         {
-            animations = new Dictionary<string, List<Rectangle>>();
-            frameCounters = new Dictionary<string, short>();
-            lastTime = new Dictionary<string, float>();
-            delays = new Dictionary<string, int>();
+            animations = new Dictionary<string, Animation>();
         }
 
         public void LoadFromFile(string filename)
         {
-            //using (XmlReader reader = XmlReader.Create(filename))
-            //{
-            //    //    reader.MoveToContent();
-            //    //    reader.ReadStartElement();
-            //    //    while(reader.NodeType != XmlNodeType.EndElement)
-            //    //    {
-            //    //        using (var subtree = reader.ReadSubtree())
-            //    //        {
-            //    //            string animName = "";
-            //    //            List<Rectangle> clips = null;
-            //    //            switch (subtree.Name)
-            //    //            {
-            //    //                case "anim":
-            //    //                    // Add previous animation before we move onto the next one
-            //    //                    if (clips != null)
-            //    //                        animations.Add(animName, clips);
+            using (var reader = XmlReader.Create(filename))
+            {
+                Animation animation = null;
 
-            //    //                    clips = new List<Rectangle>();
-            //    //                    animName = reader.GetAttribute("name");
-            //    //                    delays.Add(animName, System.Convert.ToInt32(reader.GetAttribute("delay")));
-            //    //                    break;
-            //    //                case "frame":
-            //    //                    clips.Add(new Rectangle()
-            //    //                    {
-            //    //                        X = System.Convert.ToInt32(reader.GetAttribute("x")),
-            //    //                        Y = System.Convert.ToInt32(reader.GetAttribute("y")),
-            //    //                        Width = System.Convert.ToInt32(reader.GetAttribute("w")),
-            //    //                        Height = System.Convert.ToInt32(reader.GetAttribute("h"))
-            //    //                    });
-            //    //                    break;
-            //    //            }
-            //    //        }
-            //    //        reader.Read();
-            //    //    }
-            //    //    reader.ReadEndElement();
-            //    //}
-            //}
+                reader.MoveToContent();
+                reader.ReadStartElement();
+                while(reader.NodeType != XmlNodeType.EndElement)
+                {
+                    if(reader.Name == "anim")
+                    {
+                        animation = new Animation()
+                        {
+                            delay = float.Parse(reader.GetAttribute("delay")),
+                            frameCounter = 0,
+                            lastTime = 0,
+                            frames = new List<Rectangle>()
+                        };
+                        animations.Add(reader.GetAttribute("name"), animation);
+                    }
+
+                    if (reader.NodeType == XmlNodeType.Element)
+                    {
+                        using (var subtree = reader.ReadSubtree())
+                        {
+                            while (subtree.Read())
+                            {
+                                if(subtree.Name == "frame" && subtree.NodeType != XmlNodeType.EndElement && animation != null)
+                                {
+                                    animation.frames.Add(new Rectangle()
+                                    {
+                                        X = int.Parse(subtree.GetAttribute("x")),
+                                        Y = int.Parse(subtree.GetAttribute("y")),
+                                        Width = int.Parse(subtree.GetAttribute("w")),
+                                        Height = int.Parse(subtree.GetAttribute("h"))
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    reader.Read();
+                }
+                reader.ReadEndElement();
+            }
         }
 
         public Rectangle Animate(string name, bool stopOnLastFrame = false)
@@ -70,7 +78,7 @@ namespace SMBDeluxe
 
         public void ResetAnim(string name)
         {
-            frameCounters[name] = 0;
+            animations[name].frameCounter = 0;
         }
 
         // Will return true if animation map is empty
@@ -82,7 +90,7 @@ namespace SMBDeluxe
         // Will return true if specified animation is empty
         public bool  IsAnimEmpty(string name)
         {
-            return animations[name].Count == 0;
+            return animations[name].frames.Count == 0;
         }
     }
 }
