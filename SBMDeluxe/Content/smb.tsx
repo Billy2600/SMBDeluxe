@@ -2,6 +2,9 @@
 <tileset name="smb" tilewidth="16" tileheight="16" tilecount="228" columns="19">
  <image source="smbtiles.png" width="304" height="192"/>
  <tile id="0" type="Solid"/>
+ <tile id="2" type="Solid"/>
+ <tile id="3" type="Solid"/>
+ <tile id="4" type="NotSolid"/>
  <tile id="19" type="NotSolid"/>
  <tile id="20" type="NotSolid"/>
  <tile id="21" type="NotSolid"/>
