@@ -88,7 +88,8 @@ namespace SMBDeluxe
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            states.Peek().Draw(spriteBatch);
+            FloatRect camera = new FloatRect(0, 0, GraphicsDevice.Viewport.Bounds.Width, GraphicsDevice.Viewport.Bounds.Height);
+            states.Peek().Draw(spriteBatch, camera);
             spriteBatch.End();
 
             base.Draw(gameTime);

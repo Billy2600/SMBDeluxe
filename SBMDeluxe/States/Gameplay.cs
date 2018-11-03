@@ -10,7 +10,6 @@ namespace SMBDeluxe.States
         private EntityManager entityManager;
         private TileManager tileManager;
         private InputManager inputManager;
-        private FloatRect camera;
         private Entities.Player player;
         private AnimManager animManager;
 
@@ -32,10 +31,11 @@ namespace SMBDeluxe.States
             animManager.LoadFromFile("Content\\animations.xml");
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, FloatRect camera)
         {
+            player.SetCamera(camera);
             tileManager.Draw(spriteBatch, camera);
-            entityManager.Draw(spriteBatch);
+            entityManager.Draw(spriteBatch, camera);
             entityManager.CheckDelete();
         }
 

@@ -131,7 +131,11 @@ namespace SMBDeluxe
         {
             foreach (var tile in tiles)
             {
-                spriteBatch.Draw(texture, tile.Hitbox.GetPos(), tile.SourceRect, Color.White, 0f, new Vector2(0, 0), Vector2.One, SpriteEffects.None, 0f);
+                Vector2 destPos = tile.Hitbox.GetPos();
+                destPos.X -= camera.X;
+                destPos.Y -= camera.Y;
+
+                spriteBatch.Draw(texture, destPos, tile.SourceRect, Color.White, 0f, new Vector2(0, 0), Vector2.One, SpriteEffects.None, 0f);
             }
         }
 

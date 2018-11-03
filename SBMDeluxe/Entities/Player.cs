@@ -133,17 +133,27 @@ namespace SMBDeluxe.Entities
                 currentAnim = "mario_stand";
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, FloatRect camera)
         {
             SpriteEffects spriteEffect = SpriteEffects.None;
             if (flip) spriteEffect = SpriteEffects.FlipHorizontally;
+            Vector2 destPos = Hitbox.GetPos();
+            destPos.X -= camera.X;
 
-            spriteBatch.Draw(texture, Hitbox.GetPos(), animManager.Animate(currentAnim), Color.White, 0f, new Vector2(0, 0), Vector2.One, spriteEffect, 0f);
+            spriteBatch.Draw(texture, destPos, animManager.Animate(currentAnim), Color.White, 0f, new Vector2(0, 0), Vector2.One, spriteEffect, 0f);
         }
 
         public override void HandleCollision(Entity other)
         {
 
+        }
+
+        public void SetCamera(FloatRect camera)
+        {
+            camera.X = (Hitbox.X + Hitbox.width / 2) - camera.width / 2;
+
+            // keep camera in bounds
+            if (camera.X < 0) camera.X = 0;
         }
     }
 }

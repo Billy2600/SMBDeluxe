@@ -96,11 +96,11 @@ namespace SMBDeluxe
         }
 
         // All entities will be drawn to the screen
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, FloatRect camera)
         {
             foreach(var entity in entities)
             {
-                entity.Draw(spriteBatch);
+                entity.Draw(spriteBatch, camera);
             }
         }
 

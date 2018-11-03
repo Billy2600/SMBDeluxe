@@ -15,7 +15,7 @@ namespace SMBDeluxe
         public GameTime gameTime;
 
         public virtual void Start(ContentManager content) { } // Load content and start state
-        public virtual void Draw(SpriteBatch spriteBatch) { }
+        public virtual void Draw(SpriteBatch spriteBatch, FloatRect camera) { }
         public virtual void Update(float dt) { }
         public virtual void HandleInput() { }
 

@@ -38,7 +38,7 @@ namespace SMBDeluxe.Entities
             Move(moveVec, dt);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, FloatRect camera)
         {
             if (texture != null)
             {
@@ -52,7 +52,7 @@ namespace SMBDeluxe.Entities
 
         public override void HandleCollision(Entity other)
         {
-
+            DeleteMe = true;
         }
     }
 }

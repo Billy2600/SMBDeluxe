@@ -22,7 +22,7 @@ namespace SMBDeluxe
         
         public virtual void LoadContent(ContentManager content) { } // Load content
         public virtual void Think(float dt) { } // Think every frame, 
-        public virtual void Draw(SpriteBatch spriteBatch) { } // Draw every frame
+        public virtual void Draw(SpriteBatch spriteBatch, FloatRect camera) { } // Draw every frame
         public virtual void HandleCollision(Entity other) { } // Called upon collision
         public virtual void Move(Vector2 move, float dt)
         {
