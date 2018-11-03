@@ -5,7 +5,7 @@
     <anim name="mario_stand" delay="5">
         <frame x="0" y="32" w="16" h="16"></frame>
     </anim>
-	<anim name="mario_run" delay="1">
+	<anim name="mario_run" delay="50">
 		<frame x="15" y="32" w="16" h="16"></frame>
 		<frame x="32" y="32" w="16" h="16"></frame>
 		<frame x="48" y="32" w="16" h="16"></frame>

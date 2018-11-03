@@ -93,7 +93,7 @@ namespace SMBDeluxe.Entities
 
             if (inputs.Run && (DateTime.Now.Ticks / 1000) - lastFire >= fireDelay)
             {
-                EntityManager.Add(new Bullet(this, Hitbox.X, Hitbox.Y, 5, 5));
+                EntityManager.Add(new Bullet(this, tileManager, Hitbox.X, Hitbox.Y, 5, 5));
                 lastFire = DateTime.Now.Ticks / 1000;
             }
 

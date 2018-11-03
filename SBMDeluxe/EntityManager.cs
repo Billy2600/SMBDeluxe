@@ -67,6 +67,7 @@ namespace SMBDeluxe
                 if(entity.DeleteMe)
                 {
                     entities.Remove(entity);
+                    break;
                 }
             }
         }

@@ -12,14 +12,16 @@ namespace SMBDeluxe.Entities
     class Bullet : Entity
     {
         private Texture2D texture = null;
-        private float speed = 350f;
+        private float speed = 5f;
+        private TileManager tileManager;
 
         public Entity Owner { get; set; }
 
-        public Bullet(Entity owner, float x = 0, float y = 0, float width = 0, float height = 0)
+        public Bullet(Entity owner, TileManager tileManagerRef, float x = 0, float y = 0, float width = 0, float height = 0)
         {
-            Hitbox = new FloatRect(new Vector2(x, y), new Vector2(width, height));
             Owner = owner;
+            tileManager = tileManagerRef;
+            Hitbox = new FloatRect(new Vector2(x, y), new Vector2(width, height));
         }
 
         public override void LoadContent(ContentManager content)
@@ -29,6 +31,9 @@ namespace SMBDeluxe.Entities
 
         public override void Think(float dt)
         {
+            if (tileManager.CheckCollision(Hitbox, null))
+                DeleteMe = true;
+
             Vector2 moveVec = new Vector2(speed, 0);
             Move(moveVec, dt);
         }

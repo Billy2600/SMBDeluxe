@@ -36,6 +36,7 @@ namespace SMBDeluxe.States
         {
             tileManager.Draw(spriteBatch, camera);
             entityManager.Draw(spriteBatch);
+            entityManager.CheckDelete();
         }
 
         public override void Update(float dt)

@@ -11,8 +11,8 @@ namespace SMBDeluxe
     {
         public List<Rectangle> frames;
         public short frameCounter;
-        public long delay; // Delay between frames
-        public long lastTime; // Last time we changed frame
+        public double delay; // Delay between frames
+        public double lastTime; // Last time we changed frame
     }
 
     public class AnimManager
@@ -40,7 +40,7 @@ namespace SMBDeluxe
                     {
                         animation = new Animation()
                         {
-                            delay = int.Parse(reader.GetAttribute("delay")),
+                            delay = double.Parse(reader.GetAttribute("delay")),
                             frameCounter = 0,
                             lastTime = 0,
                             frames = new List<Rectangle>()
@@ -75,7 +75,7 @@ namespace SMBDeluxe
 
         public Rectangle Animate(string name, bool stopOnLastFrame = false)
         {
-            if(gameTime.TotalGameTime.Ticks > animations[name].lastTime + animations[name].delay)
+            if(gameTime.TotalGameTime.TotalMilliseconds > animations[name].lastTime + animations[name].delay)
             {
                 animations[name].frameCounter++;
                 if(animations[name].frameCounter >= animations[name].frames.Count)
@@ -86,7 +86,7 @@ namespace SMBDeluxe
                         ResetAnim(name);
                 }
 
-                animations[name].lastTime = gameTime.TotalGameTime.Ticks;
+                animations[name].lastTime = gameTime.TotalGameTime.TotalMilliseconds;
             }
 
             if (!IsAnimEmpty(name))

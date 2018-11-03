@@ -15,7 +15,7 @@ namespace SMBDeluxe
     class Entity
     {
         public bool OnScreen { get; set; } = false;
-        public bool DeleteMe { get; } = false; // Delete flag
+        public bool DeleteMe { get; set; } = false; // Delete flag
         public FloatRect Hitbox { get; set; } // Used for positioning and collision
         public EntityManager EntityManager { get; set; } // So we can instantiate bullets, etc.
         public AnimManager animManager { get; set; }
