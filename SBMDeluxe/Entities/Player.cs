@@ -23,7 +23,7 @@ namespace SMBDeluxe.Entities
         private float lastJump; // Time of last jump
         private bool jumping;
         private bool falling;
-        private bool flip; // Flip sprite flag
+        private bool flip; // Flip sprite flag; right by default
         private TileManager tileManager;
         private AnimManager animManager;
         private string currentAnim;
@@ -93,7 +93,7 @@ namespace SMBDeluxe.Entities
 
             if (inputs.Run && (DateTime.Now.Ticks / 1000) - lastFire >= fireDelay)
             {
-                EntityManager.Add(new Bullet(this, tileManager, Hitbox.X, Hitbox.Y, 5, 5));
+                EntityManager.Add(new Bullet(this, tileManager, Hitbox.X + (Hitbox.width /2), Hitbox.Y + (Hitbox.height /2), flip));
                 lastFire = DateTime.Now.Ticks / 1000;
             }
 
@@ -150,7 +150,7 @@ namespace SMBDeluxe.Entities
 
         public void SetCamera(FloatRect camera)
         {
-            camera.X = (Hitbox.X + Hitbox.width / 2) - camera.width / 2;
+            camera.X = (int)((Hitbox.X + Hitbox.width / 2) - camera.width / 2); // Converted to int to prevent graphical errors via rounding
 
             // keep camera in bounds
             if (camera.X < 0) camera.X = 0;
