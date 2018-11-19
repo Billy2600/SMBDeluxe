@@ -13,4 +13,8 @@
     <anim name="mario_jump" delay="5">
 		<frame x="64" y="32" w="17" h="16"></frame>
 	</anim>
+	<anim name="goomba_walk" delay="200">
+		<frame x="0" y="0" w="16" h="16"></frame>
+		<frame x="16" y="0" w="16" h="16"></frame>
+	</anim>
 </animations>

@@ -26,6 +26,7 @@ namespace SMBDeluxe.States
             player = new Entities.Player(tileManager, animManager);
             player.animManager = animManager;
             entityManager.Add(player);
+            entityManager.Add(new Entities.Goomba(tileManager, animManager));
             entityManager.LoadContent();
             tileManager.LoadFromFile("Content\\1-1.tmx", content);
             animManager.LoadFromFile("Content\\animations.xml");
