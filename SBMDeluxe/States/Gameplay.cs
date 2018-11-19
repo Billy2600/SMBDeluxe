@@ -17,18 +17,16 @@ namespace SMBDeluxe.States
         {
             inputManager = new InputManager();
             tileManager = new TileManager();
-            entityManager = new EntityManager(contentMgr, animManager);
+            entityManager = new EntityManager(contentMgr, animManager, tileManager);
             animManager = new AnimManager();
         }
 
         public override void Start(ContentManager content)
         {
             player = new Entities.Player(tileManager, animManager);
-            player.animManager = animManager;
             entityManager.Add(player);
-            entityManager.Add(new Entities.Goomba(tileManager, animManager));
             entityManager.LoadContent();
-            tileManager.LoadFromFile("Content\\1-1.tmx", content);
+            tileManager.LoadFromFile("Content\\1-1.tmx", content, entityManager); // This will spawn entities from tilemap
             animManager.LoadFromFile("Content\\animations.xml");
         }
 

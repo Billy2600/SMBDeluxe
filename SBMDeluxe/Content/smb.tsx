@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset name="smb" tilewidth="16" tileheight="16" tilecount="228" columns="19">
- <image source="smbtiles.png" width="304" height="192"/>
+<tileset version="1.2" tiledversion="1.2.1" name="smb" tilewidth="16" tileheight="16" tilecount="247" columns="19">
+ <image source="smbtiles.png" width="304" height="208"/>
  <tile id="0" type="Solid"/>
  <tile id="2" type="Solid"/>
  <tile id="3" type="Solid"/>
@@ -26,4 +26,19 @@
  <tile id="64" type="NotSolid"/>
  <tile id="65" type="NotSolid"/>
  <tile id="66" type="NotSolid"/>
+ <tile id="228" type="Entity">
+  <properties>
+   <property name="EntityName" value="Player"/>
+  </properties>
+ </tile>
+ <tile id="229" type="Entity">
+  <properties>
+   <property name="EntityName" value="Goomba"/>
+  </properties>
+ </tile>
+ <tile id="230" type="Entity">
+  <properties>
+   <property name="EntityName" value="KoopaTroopa"/>
+  </properties>
+ </tile>
 </tileset>

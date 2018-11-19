@@ -17,15 +17,17 @@ namespace SMBDeluxe
         private bool added = false; // Entity added flag
         private Entity player; // Keep track of the player
         private AnimManager animManager;
+        private TileManager tileManager;
 
         public ContentManager contentManager { get; set; }
 
-        public EntityManager(ContentManager contentMgr, AnimManager animManagerRef)
+        public EntityManager(ContentManager contentMgr, AnimManager animManagerRef, TileManager tileManagerRef)
         {
             entities = new List<Entity>();
             entityQueue = new List<Entity>();
             contentManager = contentMgr;
             animManager = animManagerRef;
+            tileManager = tileManagerRef;
         }
 
         // Add new entity
@@ -38,6 +40,14 @@ namespace SMBDeluxe
             // Single out and keep track of player
             if (entity is Entities.Player)
                 player = entity;
+        }
+
+        // Add based on name
+        public void Add(string entityName)
+        {
+            // I'll find a more dynamic way to do this later
+            if (entityName == "Goomba")
+                entityQueue.Add(new Entities.Goomba(tileManager, animManager));
         }
 
         // Check all collisions
@@ -102,6 +112,12 @@ namespace SMBDeluxe
             {
                 entity.Draw(spriteBatch, camera);
             }
+        }
+
+        public void SetPlayerPos(Vector2 pos)
+        {
+            player.Hitbox.X = pos.X;
+            player.Hitbox.Y = pos.Y;
         }
 
         private void MergeEntityLists()

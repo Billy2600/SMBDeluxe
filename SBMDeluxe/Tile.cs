@@ -5,12 +5,14 @@ namespace SMBDeluxe
     enum TileType
     {
         Solid,
-        NotSolid
+        NotSolid,
+        Entity
     }
 
     class Tile
     {
         public TileType Type { get; set; }
+        public string objectName { get; set; }
         public FloatRect Hitbox { get; set; }
         public static int TileWidth = 16;
         public static int TileHeight = 16;

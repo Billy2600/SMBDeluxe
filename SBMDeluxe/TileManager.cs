@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Xml;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
+using System.Reflection;
 
 // Manages everything to do with Tiles
 // Loads from file, collisions, etc.
@@ -24,7 +25,7 @@ namespace SMBDeluxe
             loaded = false;
         }
 
-        public void LoadFromFile(string filename, ContentManager content)
+        public void LoadFromFile(string filename, ContentManager content, EntityManager entityManager)
         {
             string tilemap = null;
 
@@ -52,7 +53,8 @@ namespace SMBDeluxe
                 if (tilemap == null)
                     return;
 
-               var tileTypes = new Dictionary<int, TileType>();
+                var tileTypes = new Dictionary<int, TileType>();
+                var entityTypes = new Dictionary<int, string>();
 
                 using (XmlReader tilemapReader = XmlReader.Create("Content\\" + tilemap))
                 {
@@ -64,9 +66,11 @@ namespace SMBDeluxe
                     {
                         do
                         {
+                            int gid = System.Convert.ToInt32(tilemapReader.GetAttribute("id")) + 1;
                             TileType tileType = new TileType();
 
-                            switch (tilemapReader.GetAttribute("type"))
+                            string tileTypeName = tilemapReader.GetAttribute("type");
+                            switch (tileTypeName)
                             {
                                 case "Solid":
                                     tileType = TileType.Solid;
@@ -74,11 +78,17 @@ namespace SMBDeluxe
                                 case "NotSolid":
                                     tileType = TileType.NotSolid;
                                     break;
+                                case "Entity":
+                                    tileType = TileType.Entity;
+                                    tilemapReader.ReadToDescendant("property");
+                                    if(tilemapReader.GetAttribute("name") == "EntityName")
+                                        entityTypes.Add(gid, tilemapReader.GetAttribute("value"));
+                                    break;
                                 default:
                                     tileType = TileType.Solid;
                                     break;
                             }
-                            tileTypes.Add(System.Convert.ToInt32(tilemapReader.GetAttribute("id"))+1, tileType); // Tile id's are offset from gid's by one
+                            tileTypes.Add(gid, tileType); // Tile id's are offset from gid's by one
                         } while (tilemapReader.ReadToNextSibling("tile"));
                     }
                 }
@@ -110,11 +120,32 @@ namespace SMBDeluxe
                     } while (reader.ReadToNextSibling("tile"));
                 }
 
+                reader.ReadToFollowing("objectgroup");
+                if (reader.ReadToDescendant("object"))
+                {
+                    do
+                    {
+                        int gid = System.Convert.ToInt32(reader.GetAttribute("gid"));
+                        Vector2 pos = new Vector2(System.Convert.ToInt32(reader.GetAttribute("x")) - 16, System.Convert.ToInt32(reader.GetAttribute("y")) - 16);
+
+                        if (entityTypes.ContainsKey(gid))
+                        {
+                            // If we come across a player, change position don't spawn it
+                            if (entityTypes[gid] == "Player")
+                                entityManager.SetPlayerPos(pos);
+                            // Spawn based on name provided
+                            else
+                                entityManager.Add(entityTypes[gid]);
+                        }
+                    } while (reader.ReadToNextSibling("object"));
+
+                }
+
                 loaded = true;
             }
         }
 
-        public bool CheckCollision(FloatRect objRect, FloatRect camera)
+        public bool CheckCollision(FloatRect objRect, FloatRect camera = null)
         {
             foreach(var tile in tiles)
             {

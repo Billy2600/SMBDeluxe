@@ -37,7 +37,7 @@ namespace SMBDeluxe.Entities
         {
             tileManager = tileManagerRef;
             animManager = animManagerRef;
-            Hitbox = new FloatRect(30, 30, 16, 16);
+            Hitbox = new FloatRect(0, 0, 16, 16);
         }
 
         public override void LoadContent(ContentManager content)
