@@ -142,7 +142,7 @@ namespace SMBDeluxe.Entities
 
         public override void HandleCollision(Entity other)
         {
-
+            
         }
 
         public void SetCamera(FloatRect camera)

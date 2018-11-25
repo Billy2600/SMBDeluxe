@@ -24,7 +24,6 @@ namespace SMBDeluxe.States
         {
             animManager.LoadFromFile("Content\\animations.xml");
             tileManager.LoadFromFile("Content\\1-1.tmx", content, entityManager); // This will spawn entities from tilemap
-            //entityManager.Add(player);
             entityManager.LoadContent();   
         }
 
@@ -33,6 +32,7 @@ namespace SMBDeluxe.States
             entityManager.player.SetCamera(camera);
             tileManager.Draw(spriteBatch, camera);
             entityManager.Draw(spriteBatch, camera);
+            entityManager.CheckCollisions();
             entityManager.CheckDelete();
         }
 
