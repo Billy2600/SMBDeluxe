@@ -24,10 +24,19 @@ namespace SMBDeluxe
         public virtual void Think(float dt) { } // Think every frame, 
         public virtual void Draw(SpriteBatch spriteBatch, FloatRect camera) { } // Draw every frame
         public virtual void HandleCollision(Entity other) { } // Called upon collision
+
         public virtual void Move(Vector2 move, float dt)
         {
             Hitbox.X += move.X;// * dt;
             Hitbox.Y += move.Y;// * dt;
+        }
+
+        // Get real position with camera taken into account
+        public Vector2 GetRealPos(FloatRect camera)
+        {
+            Vector2 pos = Hitbox.GetPos();
+            pos.X -= camera.X;
+            return pos;
         }
     }
 }

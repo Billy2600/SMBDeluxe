@@ -41,7 +41,7 @@ namespace SMBDeluxe.Entities
 
         public override void Draw(SpriteBatch spriteBatch, FloatRect camera)
         {
-            spriteBatch.Draw(texture, Hitbox.GetPos(), animManager.Animate("goomba_walk"), Color.White);
+            spriteBatch.Draw(texture, GetRealPos(camera), animManager.Animate("goomba_walk"), Color.White);
         }
 
         public override void HandleCollision(Entity other)

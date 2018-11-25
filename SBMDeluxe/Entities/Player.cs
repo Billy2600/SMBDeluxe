@@ -136,10 +136,8 @@ namespace SMBDeluxe.Entities
         {
             SpriteEffects spriteEffect = SpriteEffects.None;
             if (flip) spriteEffect = SpriteEffects.FlipHorizontally;
-            Vector2 destPos = Hitbox.GetPos();
-            destPos.X -= camera.X;
 
-            spriteBatch.Draw(texture, destPos, animManager.Animate(currentAnim), Color.White, 0f, new Vector2(0, 0), Vector2.One, spriteEffect, 0f);
+            spriteBatch.Draw(texture, GetRealPos(camera), animManager.Animate(currentAnim), Color.White, 0f, new Vector2(0, 0), Vector2.One, spriteEffect, 0f);
         }
 
         public override void HandleCollision(Entity other)
