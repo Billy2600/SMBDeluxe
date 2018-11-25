@@ -25,7 +25,6 @@ namespace SMBDeluxe.Entities
         private bool falling;
         private bool flip; // Flip sprite flag; right by default
         private TileManager tileManager;
-        private AnimManager animManager;
         private string currentAnim;
         private Inputs inputs;
 
@@ -33,11 +32,11 @@ namespace SMBDeluxe.Entities
         private long lastFire;
         private static long fireDelay = 500;
 
-        public Player(TileManager tileManagerRef, AnimManager animManagerRef)
+        public Player(TileManager tileManagerRef, AnimManager animManagerRef, Vector2 pos)
         {
             tileManager = tileManagerRef;
             animManager = animManagerRef;
-            Hitbox = new FloatRect(0, 0, 16, 16);
+            Hitbox = new FloatRect(pos.X, pos.Y, 16, 16);
         }
 
         public override void LoadContent(ContentManager content)

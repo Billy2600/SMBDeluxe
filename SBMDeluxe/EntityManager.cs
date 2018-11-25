@@ -15,13 +15,13 @@ namespace SMBDeluxe
         private List<Entity> entities;
         private List<Entity> entityQueue;
         private bool added = false; // Entity added flag
-        private Entity player; // Keep track of the player
         private AnimManager animManager;
         private TileManager tileManager;
 
+        public Entities.Player player; // Keep track of the player
         public ContentManager contentManager { get; set; }
 
-        public EntityManager(ContentManager contentMgr, AnimManager animManagerRef, TileManager tileManagerRef)
+        public EntityManager(ContentManager contentMgr, ref AnimManager animManagerRef, TileManager tileManagerRef)
         {
             entities = new List<Entity>();
             entityQueue = new List<Entity>();
@@ -39,15 +39,21 @@ namespace SMBDeluxe
 
             // Single out and keep track of player
             if (entity is Entities.Player)
-                player = entity;
+                player = entity as Entities.Player;
         }
 
         // Add based on name
-        public void Add(string entityName)
+        public void Add(string entityName, Vector2 pos)
         {
+            Entity entity = null;
             // I'll find a more dynamic way to do this later
+            if (entityName == "Player")
+                entity = new Entities.Player(tileManager, animManager, pos);
             if (entityName == "Goomba")
-                entityQueue.Add(new Entities.Goomba(tileManager, animManager));
+                entity = new Entities.Goomba(tileManager, animManager, pos);
+
+            if(entity != null)
+                Add(entity);
         }
 
         // Check all collisions
@@ -114,11 +120,11 @@ namespace SMBDeluxe
             }
         }
 
-        public void SetPlayerPos(Vector2 pos)
-        {
-            player.Hitbox.X = pos.X;
-            player.Hitbox.Y = pos.Y;
-        }
+        //public void SetPlayerPos(Vector2 pos)
+        //{
+        //    player.Hitbox.X = pos.X;
+        //    player.Hitbox.Y = pos.Y;
+        //}
 
         private void MergeEntityLists()
         {

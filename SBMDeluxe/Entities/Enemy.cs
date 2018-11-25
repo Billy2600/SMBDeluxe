@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace SMBDeluxe.Entities
     {
         protected TileManager tileManager;
 
-        public Enemy(TileManager tileManagerRef, AnimManager animManagerRef)
+        public Enemy(TileManager tileManagerRef, AnimManager animManagerRef, Vector2 pos)
         {
             tileManager = tileManagerRef;
             animManager = animManagerRef;

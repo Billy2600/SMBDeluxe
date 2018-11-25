@@ -10,29 +10,27 @@ namespace SMBDeluxe.States
         private EntityManager entityManager;
         private TileManager tileManager;
         private InputManager inputManager;
-        private Entities.Player player;
         private AnimManager animManager;
 
         public Gameplay(ContentManager contentMgr)
         {
             inputManager = new InputManager();
             tileManager = new TileManager();
-            entityManager = new EntityManager(contentMgr, animManager, tileManager);
             animManager = new AnimManager();
+            entityManager = new EntityManager(contentMgr, ref animManager, tileManager);
         }
 
         public override void Start(ContentManager content)
         {
-            player = new Entities.Player(tileManager, animManager);
-            entityManager.Add(player);
-            entityManager.LoadContent();
-            tileManager.LoadFromFile("Content\\1-1.tmx", content, entityManager); // This will spawn entities from tilemap
             animManager.LoadFromFile("Content\\animations.xml");
+            tileManager.LoadFromFile("Content\\1-1.tmx", content, entityManager); // This will spawn entities from tilemap
+            //entityManager.Add(player);
+            entityManager.LoadContent();   
         }
 
         public override void Draw(SpriteBatch spriteBatch, FloatRect camera)
         {
-            player.SetCamera(camera);
+            entityManager.player.SetCamera(camera);
             tileManager.Draw(spriteBatch, camera);
             entityManager.Draw(spriteBatch, camera);
             entityManager.CheckDelete();
@@ -41,7 +39,7 @@ namespace SMBDeluxe.States
         public override void Update(float dt)
         {
             animManager.gameTime = gameTime;
-            player.SetInputs(inputManager.ReadInputs());
+            entityManager.player.SetInputs(inputManager.ReadInputs());
             entityManager.Think(dt);
         }
 

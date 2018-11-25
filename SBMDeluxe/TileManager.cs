@@ -62,37 +62,45 @@ namespace SMBDeluxe
                     string textureName = tilemapReader.GetAttribute("source");
                     texture = content.Load<Texture2D>(textureName.Substring(0, textureName.Length - 4)); // Strip file extension
 
-                    if (tilemapReader.ReadToNextSibling("tile"))
+                    int gid = 0; // We want to save this through iterations
+                    while (tilemapReader.Read())
                     {
-                        do
+                        if(tilemapReader.NodeType == XmlNodeType.Element)
                         {
-                            int gid = System.Convert.ToInt32(tilemapReader.GetAttribute("id")) + 1;
-                            TileType tileType = new TileType();
-
-                            string tileTypeName = tilemapReader.GetAttribute("type");
-                            switch (tileTypeName)
+                            switch(tilemapReader.LocalName)
                             {
-                                case "Solid":
-                                    tileType = TileType.Solid;
+                                case "tile":
+                                    gid = System.Convert.ToInt32(tilemapReader.GetAttribute("id")) + 1; // Tile id's are offset from gid's by one
+                                    TileType tileType = new TileType();
+
+                                    string tileTypeName = tilemapReader.GetAttribute("type");
+                                    switch (tileTypeName)
+                                    {
+                                        case "Solid":
+                                            tileType = TileType.Solid;
+                                            break;
+                                        case "NotSolid":
+                                            tileType = TileType.NotSolid;
+                                            break;
+                                        case "Entity":
+                                            tileType = TileType.Entity; // We'll get the properties on the next iteration of the loop
+                                            break;
+                                        default:
+                                            tileType = TileType.Solid;
+                                            break;
+                                    }
+                                    tileTypes.Add(gid, tileType);
                                     break;
-                                case "NotSolid":
-                                    tileType = TileType.NotSolid;
-                                    break;
-                                case "Entity":
-                                    tileType = TileType.Entity;
-                                    tilemapReader.ReadToDescendant("property");
-                                    if(tilemapReader.GetAttribute("name") == "EntityName")
-                                        entityTypes.Add(gid, tilemapReader.GetAttribute("value"));
-                                    break;
-                                default:
-                                    tileType = TileType.Solid;
+                                case "property":
+                                    if (tilemapReader.GetAttribute("name") == "EntityName")
+                                        entityTypes.Add(gid, tilemapReader.GetAttribute("value")); // Object gid's are not offset
                                     break;
                             }
-                            tileTypes.Add(gid, tileType); // Tile id's are offset from gid's by one
-                        } while (tilemapReader.ReadToNextSibling("tile"));
+                        }
                     }
                 }
 
+                // Read and create actual tiles
                 reader.ReadToFollowing("data");
                 if(reader.ReadToDescendant("tile"))
                 {
@@ -120,22 +128,19 @@ namespace SMBDeluxe
                     } while (reader.ReadToNextSibling("tile"));
                 }
 
+                // Read object layer and spawn objects
                 reader.ReadToFollowing("objectgroup");
                 if (reader.ReadToDescendant("object"))
                 {
                     do
                     {
                         int gid = System.Convert.ToInt32(reader.GetAttribute("gid"));
-                        Vector2 pos = new Vector2(System.Convert.ToInt32(reader.GetAttribute("x")) - 16, System.Convert.ToInt32(reader.GetAttribute("y")) - 16);
+                        Vector2 pos = new Vector2(System.Convert.ToInt32(reader.GetAttribute("x")) - 16, System.Convert.ToInt32(reader.GetAttribute("y")) - 16); // Objects x/y are offset
 
                         if (entityTypes.ContainsKey(gid))
                         {
-                            // If we come across a player, change position don't spawn it
-                            if (entityTypes[gid] == "Player")
-                                entityManager.SetPlayerPos(pos);
                             // Spawn based on name provided
-                            else
-                                entityManager.Add(entityTypes[gid]);
+                            entityManager.Add(entityTypes[gid], pos);
                         }
                     } while (reader.ReadToNextSibling("object"));
 

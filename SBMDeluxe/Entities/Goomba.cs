@@ -11,9 +11,9 @@ namespace SMBDeluxe.Entities
         private static float gravity = 0.5f; // Gravity added per frame
         private static float walkSpeed = -0.25f;
 
-        public Goomba(TileManager tileManagerRef, AnimManager animManagerRef) : base(tileManagerRef, animManagerRef)
+        public Goomba(TileManager tileManagerRef, AnimManager animManagerRef, Vector2 pos) : base(tileManagerRef, animManagerRef, pos)
         {
-            Hitbox = new FloatRect(300, 300, 16, 16);
+            Hitbox = new FloatRect(pos.X, pos.Y, 16, 16);
         }
 
         public override void LoadContent(ContentManager content)
