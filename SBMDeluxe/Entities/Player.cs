@@ -18,25 +18,17 @@ namespace SMBDeluxe.Entities
         private static float gravity = 0.5f; // Gravity added per frame
         private static float speedLimit = 3f; // Limit to running speed
         private static int maxJumpHeight = 30; // Maximum jump height (in pixels)
-        private static float jumpDelay = 1000;
+        private static int bounceDiff = 30; // Difference between max jump height and max height for bounce
+        //private static float jumpDelay = 1000;
         private float startJumpY; // Y position where we started jumping
-        //private float lastJump; // Time of last jump
-        private bool jumping;
-        private bool falling;
         private bool flip; // Flip sprite flag; right by default
         private TileManager tileManager;
         private string currentAnim;
         private Inputs inputs;
 
         // Other entities will need to know if we're jumping or falling
-        public bool Jumping
-        {
-            get { return jumping; }
-        }
-        public bool Falling
-        {
-            get { return falling; }
-        }
+        public bool Jumping { get; private set; }
+        public bool Falling { get; private set; }
 
         // Fireball stuff
         private long lastFire;
@@ -74,31 +66,31 @@ namespace SMBDeluxe.Entities
             if (inputs.Right) flip = false;
 
             // Jump
-            if(inputs.Jump && !falling)
+            if(inputs.Jump && !Falling)
             {
                 // Begin moving upward
                 velocity.Y -= jumpAccel;
                 // Begin a jump
-                if(!jumping)
+                if(!Jumping)
                 {
-                    jumping = true;
+                    Jumping = true;
                     startJumpY = Hitbox.Y;
                 }
             }
             if (!inputs.Jump)
             {
-                jumping = false;
-                falling = true;
+                Jumping = false;
+                Falling = true;
             }
 
             // Make us fall at the top of a jump
             if(startJumpY - Hitbox.Y > maxJumpHeight)
             {
-                jumping = false;
-                falling = true;
+                Jumping = false;
+                Falling = true;
             }
             // Gravity
-            if (!jumping) velocity.Y += gravity;
+            if (!Jumping) velocity.Y += gravity;
 
             if (inputs.Run && (DateTime.Now.Ticks / 1000) - lastFire >= fireDelay)
             {
@@ -111,13 +103,13 @@ namespace SMBDeluxe.Entities
             if(tileManager.CheckCollision(Hitbox, null))
             {
                 // Land on ground
-                if (velocity.Y > 0 && falling)
-                    falling = false;
+                if (velocity.Y > 0 && Falling)
+                    Falling = false;
                 // Hit head on ceiling
                 if(velocity.Y < 0)
                 {
-                    jumping = false;
-                    falling = true;
+                    Jumping = false;
+                    Falling = true;
                 }
                 // Move back and stop velocity
                 Move(new Vector2(0, -velocity.Y), dt);
@@ -134,7 +126,7 @@ namespace SMBDeluxe.Entities
                 velocity.X = 0.0f;
             }
 
-            if (jumping || falling)
+            if (Jumping || Falling)
                 currentAnim = "mario_jump";
             else if (velocity.X != 0.0f)
                 currentAnim = "mario_run";
@@ -161,6 +153,13 @@ namespace SMBDeluxe.Entities
 
             // keep camera in bounds
             if (camera.X < 0) camera.X = 0;
+        }
+
+        // Make player bounce after landing on an enemy
+        public void Bounce()
+        {
+            Jumping = true;
+            startJumpY = Hitbox.Y + bounceDiff;
         }
     }
 }
