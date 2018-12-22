@@ -32,7 +32,7 @@ namespace SMBDeluxe.Entities
         public bool Jumping { get; private set; }
         public bool Bouncing { get; private set; }
         public bool Falling { get; private set; }
-
+        
         // Fireball stuff
         private long lastFire;
         private static long fireDelay = 500;
@@ -69,7 +69,7 @@ namespace SMBDeluxe.Entities
             if (inputs.Right) flip = false;
 
             // Jump or bounce
-            if(Bouncing || (inputs.Jump && !Falling && ((DateTime.Now.Ticks / 1000) - timeOfLand >= jumpDelay)))
+            if(inputs.Jump && !Falling && ((DateTime.Now.Ticks / 1000) - timeOfLand >= jumpDelay || Bouncing))
             {
                 // Begin moving upward
                 velocity.Y -= jumpAccel;
