@@ -76,7 +76,7 @@ namespace SMBDeluxe.Entities
                 lastJumpPress = DateTime.Now.Ticks / 1000;
 
             // Begin a jump
-            if(inputs.Jump && !Jumping && lastJumpPress == DateTime.Now.Ticks / 1000)
+            if(inputs.Jump && !Jumping && !Falling && lastJumpPress == DateTime.Now.Ticks / 1000)
             {
                 Jumping = true;
                 startJumpY = Hitbox.Y;
@@ -102,7 +102,7 @@ namespace SMBDeluxe.Entities
                 Falling = true;
             }
             // Gravity
-            if (!Jumping) velocity.Y += gravity;
+            if (!Jumping || Falling) velocity.Y += gravity;
 
             if (inputs.Run && (DateTime.Now.Ticks / 1000) - lastFire >= fireDelay)
             {
@@ -140,7 +140,7 @@ namespace SMBDeluxe.Entities
                 velocity.X = 0.0f;
             }
 
-            if (Jumping || Falling)
+            if (Jumping || Falling || Bouncing)
                 currentAnim = "mario_jump";
             else if (velocity.X != 0.0f)
                 currentAnim = "mario_run";
