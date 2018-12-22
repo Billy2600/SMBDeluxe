@@ -18,16 +18,19 @@ namespace SMBDeluxe.Entities
         private static float gravity = 0.5f; // Gravity added per frame
         private static float speedLimit = 3f; // Limit to running speed
         private static int maxJumpHeight = 30; // Maximum jump height (in pixels)
-        private static int bounceDiff = 30; // Difference between max jump height and max height for bounce
-        //private static float jumpDelay = 1000;
+        private static int bounceDiff = 15; // Difference between max jump height and max height for bounce
         private float startJumpY; // Y position where we started jumping
         private bool flip; // Flip sprite flag; right by default
         private TileManager tileManager;
         private string currentAnim;
         private Inputs inputs;
+        // Delay next jump
+        private long timeOfLand;
+        private static long jumpDelay = 1000;
 
         // Other entities will need to know if we're jumping or falling
         public bool Jumping { get; private set; }
+        public bool Bouncing { get; private set; }
         public bool Falling { get; private set; }
 
         // Fireball stuff
@@ -65,8 +68,8 @@ namespace SMBDeluxe.Entities
             if (inputs.Left) flip = true;
             if (inputs.Right) flip = false;
 
-            // Jump
-            if(inputs.Jump && !Falling)
+            // Jump or bounce
+            if(Bouncing || (inputs.Jump && !Falling && ((DateTime.Now.Ticks / 1000) - timeOfLand >= jumpDelay)))
             {
                 // Begin moving upward
                 velocity.Y -= jumpAccel;
@@ -83,10 +86,11 @@ namespace SMBDeluxe.Entities
                 Falling = true;
             }
 
-            // Make us fall at the top of a jump
+            // Make us fall at the top of a jump or bounce
             if(startJumpY - Hitbox.Y > maxJumpHeight)
             {
                 Jumping = false;
+                Bouncing = false;
                 Falling = true;
             }
             // Gravity
@@ -104,7 +108,10 @@ namespace SMBDeluxe.Entities
             {
                 // Land on ground
                 if (velocity.Y > 0 && Falling)
+                {
+                    timeOfLand = DateTime.Now.Ticks / 1000;
                     Falling = false;
+                }
                 // Hit head on ceiling
                 if(velocity.Y < 0)
                 {
@@ -158,7 +165,7 @@ namespace SMBDeluxe.Entities
         // Make player bounce after landing on an enemy
         public void Bounce()
         {
-            Jumping = true;
+            Bouncing = true;
             startJumpY = Hitbox.Y + bounceDiff;
         }
     }
