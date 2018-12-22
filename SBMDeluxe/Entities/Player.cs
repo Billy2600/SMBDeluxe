@@ -18,15 +18,14 @@ namespace SMBDeluxe.Entities
         private static float gravity = 0.5f; // Gravity added per frame
         private static float speedLimit = 3f; // Limit to running speed
         private static int maxJumpHeight = 30; // Maximum jump height (in pixels)
-        private static int bounceDiff = 15; // Difference between max jump height and max height for bounce
+        private static int bounceDiff = 5; // Difference between max jump height and max height for bounce
         private float startJumpY; // Y position where we started jumping
         private bool flip; // Flip sprite flag; right by default
         private TileManager tileManager;
         private string currentAnim;
         private Inputs inputs;
-        // Delay next jump
-        private long timeOfLand;
-        private static long jumpDelay = 1000;
+        private Inputs inputsLastFrame;
+        private long lastJumpPress;
 
         // Other entities will need to know if we're jumping or falling
         public bool Jumping { get; private set; }
@@ -35,13 +34,14 @@ namespace SMBDeluxe.Entities
         
         // Fireball stuff
         private long lastFire;
-        private static long fireDelay = 500;
+        private static long fireDelay = 1000;
 
         public Player(TileManager tileManagerRef, AnimManager animManagerRef, Vector2 pos)
         {
             tileManager = tileManagerRef;
             animManager = animManagerRef;
             Hitbox = new FloatRect(pos.X, pos.Y, 16, 16);
+            inputsLastFrame = new Inputs { Jump = false }; // We won't be able to jump the first time if this isn't already false
         }
 
         public override void LoadContent(ContentManager content)
@@ -51,6 +51,7 @@ namespace SMBDeluxe.Entities
 
         public void SetInputs(Inputs newInputs)
         {
+            inputsLastFrame = inputs;
             inputs = newInputs;
         }
 
@@ -68,26 +69,31 @@ namespace SMBDeluxe.Entities
             if (inputs.Left) flip = true;
             if (inputs.Right) flip = false;
 
-            // Jump or bounce
-            if(inputs.Jump && !Falling && ((DateTime.Now.Ticks / 1000) - timeOfLand >= jumpDelay || Bouncing))
+            // Take down when jump button was last pressed
+            if (inputs.Jump && !inputsLastFrame.Jump)
+                lastJumpPress = DateTime.Now.Ticks / 1000;
+
+            // Begin a jump
+            if(inputs.Jump && !Jumping && lastJumpPress == DateTime.Now.Ticks / 1000)
             {
-                // Begin moving upward
-                velocity.Y -= jumpAccel;
-                // Begin a jump
-                if(!Jumping)
-                {
-                    Jumping = true;
-                    startJumpY = Hitbox.Y;
-                }
+                Jumping = true;
+                startJumpY = Hitbox.Y;
             }
+            
+            // Fall after we let go of the button
             if (!inputs.Jump)
             {
                 Jumping = false;
+                Bouncing = false;
                 Falling = true;
             }
 
+            // Set velocity upwards if jumping or bouncing
+            if((Jumping || Bouncing) && !Falling)
+                velocity.Y -= jumpAccel;
+
             // Make us fall at the top of a jump or bounce
-            if(startJumpY - Hitbox.Y > maxJumpHeight)
+            if (startJumpY - Hitbox.Y > maxJumpHeight)
             {
                 Jumping = false;
                 Bouncing = false;
@@ -109,7 +115,6 @@ namespace SMBDeluxe.Entities
                 // Land on ground
                 if (velocity.Y > 0 && Falling)
                 {
-                    timeOfLand = DateTime.Now.Ticks / 1000;
                     Falling = false;
                 }
                 // Hit head on ceiling
