@@ -41,7 +41,9 @@ namespace SMBDeluxe.Entities
             tileManager = tileManagerRef;
             animManager = animManagerRef;
             Hitbox = new FloatRect(pos.X, pos.Y, 16, 16);
-            inputsLastFrame = new Inputs { Jump = false }; // We won't be able to jump the first time if this isn't already false
+            // We won't be able to jump the first time if these aren't already set
+            inputsLastFrame = new Inputs { Jump = false };
+            lastJumpPress = DateTime.Now.Ticks / 1000;
         }
 
         public override void LoadContent(ContentManager content)
