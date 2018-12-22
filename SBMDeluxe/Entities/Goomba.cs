@@ -10,10 +10,12 @@ namespace SMBDeluxe.Entities
         private Texture2D texture;
         private static float gravity = 0.5f; // Gravity added per frame
         private static float walkSpeed = -0.25f;
+        private bool dead;
 
         public Goomba(TileManager tileManagerRef, AnimManager animManagerRef, Vector2 pos) : base(tileManagerRef, animManagerRef, pos)
         {
             Hitbox = new FloatRect(pos.X, pos.Y, 16, 16);
+            dead = false;
         }
 
         public override void LoadContent(ContentManager content)
@@ -41,12 +43,22 @@ namespace SMBDeluxe.Entities
 
         public override void Draw(SpriteBatch spriteBatch, FloatRect camera)
         {
-            spriteBatch.Draw(texture, GetRealPos(camera), animManager.Animate("goomba_walk"), Color.White);
+            Color test = Color.White;
+            if (dead) test = Color.Red;
+
+            spriteBatch.Draw(texture, GetRealPos(camera), animManager.Animate("goomba_walk"), test);
         }
 
         public override void HandleCollision(Entity other)
         {
-
+            if(other is Player)
+            {
+                Player player = other as Player;
+                if( (player.Jumping || player.Falling) && player.Hitbox.Y < Hitbox.Y)
+                {
+                    dead = true;
+                }
+            }
         }
     }
 }

@@ -20,13 +20,23 @@ namespace SMBDeluxe.Entities
         private static int maxJumpHeight = 30; // Maximum jump height (in pixels)
         private static float jumpDelay = 1000;
         private float startJumpY; // Y position where we started jumping
-        private float lastJump; // Time of last jump
+        //private float lastJump; // Time of last jump
         private bool jumping;
         private bool falling;
         private bool flip; // Flip sprite flag; right by default
         private TileManager tileManager;
         private string currentAnim;
         private Inputs inputs;
+
+        // Other entities will need to know if we're jumping or falling
+        public bool Jumping
+        {
+            get { return jumping; }
+        }
+        public bool Falling
+        {
+            get { return falling; }
+        }
 
         // Fireball stuff
         private long lastFire;
